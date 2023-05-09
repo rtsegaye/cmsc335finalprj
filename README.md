@@ -1,5 +1,5 @@
 Team Members 
-    -> Emmanuel Ermias (117222579)
+    -> Emmanuel Ermias (put your uid here)
     -> Yeabsira Tamiru (put your uid here)
     -> Rediet Tsegaye (117114997)
 
