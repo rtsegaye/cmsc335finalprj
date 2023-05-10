@@ -7,30 +7,34 @@ app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer')
+const cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
+app.use(cors())
 
-const port = process.argv[2];
+
+const port = process.env.PORT || 3000;
+
 const server = app.listen(port, () => {
   console.log(`Server started and running at http://localhost:${port}/`);
   process.stdout.write('Stop to shutdown the server: ');
 });
 
-process.stdin.on('data', (data) => {
-  const cmd = data.toString().trim();
-  if (cmd === 'stop') {
-    server.close(() => {
-      console.log('Server shutting down...');
-      process.exit(0);
-    });
-  } else {
-    console.log(`Unknown command: ${cmd}`);
-    process.stdout.write('Stop to shutdown the server: ');
-  }
-});
+// process.stdin.on('data', (data) => {
+//   const cmd = data.toString().trim();
+//   if (cmd === 'stop') {
+//     server.close(() => {
+//       console.log('Server shutting down...');
+//       process.exit(0);
+//     });
+//   } else {
+//     console.log(`Unknown command: ${cmd}`);
+//     process.stdout.write('Stop to shutdown the server: ');
+//   }
+// });
 
 const renderFile = (path, res) => {
     ejs.renderFile(path, (err, html) => {
@@ -229,5 +233,6 @@ function sendConfirmation(name, email, date){
   });
 }
 
+// exports.app = functions.https.onRequest(app);
   
   
