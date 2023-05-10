@@ -1,6 +1,6 @@
 Team Members 
     -> Emmanuel Ermias (put your uid here)
-    -> Yeabsira Tamiru (117857740)
+    -> Yeabsira Tamiru (put your uid here)
     -> Rediet Tsegaye (117114997)
 
 App Discription 
@@ -9,7 +9,6 @@ App Discription
 
 APIs 
     -> https://fonts.google.com (Google Fonts)
-    -> Nodemailer: To send an email verification of appointments 
 
 Youtube Demo
     -> 

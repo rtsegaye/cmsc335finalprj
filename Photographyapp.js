@@ -13,9 +13,6 @@ app.use(bodyParser.json());
 
 
 
-
-
-
 const port = process.argv[2];
 const server = app.listen(port, () => {
   console.log(`Server started and running at http://localhost:${port}/`);
@@ -48,6 +45,9 @@ const renderFile = (path, res) => {
 
 
 
+
+
+
   // Connect to Mongo
 //db
 const userName = process.env.MONGO_DB_USERNAME;
@@ -68,6 +68,38 @@ app.get('/', (req, res) => {
 app.get('/appointment', (req, res) => {
     renderFile('./templates/appointment.ejs', res);
 });
+
+app.post('/appointment', async (req, res) => {
+  nameVal = req.body.name
+  email = req.body.email
+  Phone = "" + req.body.phone1 + "-"+ req.body.phone2 + "-" +req.body.phone3
+  dateVal = req.body.date
+  session = req.body.session
+  id = undefined
+  message = "For some reason, this appointment was not made. "
+
+  console.log(nameVal, email, Phone, dateVal, session)
+
+  try {
+    await client.connect();
+    let person = {name : nameVal, email : email, phone: Phone, date: dateVal, session : session}
+    const result = await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).insertOne(person);
+    sendConfirmation(nameVal, email, dateVal)
+    id = result.insertedId
+    console.log(`Person entered with id ${result.insertedId}`);
+  } catch (e){
+    console.error(e)
+  } finally {
+    await client.close();
+  }
+  
+  if(id){
+    Application = `Thank you very much. Please check your email for a confirmation`
+  }
+
+  res.send(Application);
+})
+
 
 app.post('/appointment', async (req, res) => {
   nameVal = req.body.name
@@ -161,6 +193,31 @@ function sendConfirmation(name, email, date){
     to: email,
     subject: 'Appointment cofirmation',
     text: `Greetings ${name}, \n\n This is a confirmation message for your appointment on ${date}, with AfroFlick`
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+function sendConfirmation(name, email, date){
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'ekebede2@terpmail.umd.edu',
+      pass: emailPass
+    }
+  });
+
+  var mailOptions = {
+    from: 'AfroFlicks@gmail.com',
+    to: email,
+    subject: 'Appointment cofirmation',
+    text: `Greetings ${name}, \n\n This is a confirmation message for your appointment on ${date} with AfroFlick`
   };
 
   transporter.sendMail(mailOptions, function(error, info){
