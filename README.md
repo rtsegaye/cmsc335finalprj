@@ -9,6 +9,7 @@ App Discription
 
 APIs 
     -> https://fonts.google.com (Google Fonts)
+    -> Nodemailer: To send an email verification of appointments 
 
 Youtube Demo
     -> 
