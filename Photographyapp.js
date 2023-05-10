@@ -52,6 +52,9 @@ const renderFile = (path, res) => {
 
 
 
+
+
+
   // Connect to Mongo
 //db
 const userName = process.env.MONGO_DB_USERNAME;
@@ -72,6 +75,38 @@ app.get('/', (req, res) => {
 app.get('/appointment', (req, res) => {
     renderFile('./templates/appointment.ejs', res);
 });
+
+app.post('/appointment', async (req, res) => {
+  nameVal = req.body.name
+  email = req.body.email
+  Phone = "" + req.body.phone1 + "-"+ req.body.phone2 + "-" +req.body.phone3
+  dateVal = req.body.date
+  session = req.body.session
+  id = undefined
+  message = "For some reason, this appointment was not made. "
+
+  console.log(nameVal, email, Phone, dateVal, session)
+
+  try {
+    await client.connect();
+    let person = {name : nameVal, email : email, phone: Phone, date: dateVal, session : session}
+    const result = await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).insertOne(person);
+    sendConfirmation(nameVal, email, dateVal)
+    id = result.insertedId
+    console.log(`Person entered with id ${result.insertedId}`);
+  } catch (e){
+    console.error(e)
+  } finally {
+    await client.close();
+  }
+  
+  if(id){
+    Application = `Thank you very much. Please check your email for a confirmation`
+  }
+
+  res.send(Application);
+})
+
 
 app.post('/appointment', async (req, res) => {
   nameVal = req.body.name
@@ -233,6 +268,5 @@ function sendConfirmation(name, email, date){
   });
 }
 
-// exports.app = functions.https.onRequest(app);
   
   
