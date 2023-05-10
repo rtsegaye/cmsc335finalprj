@@ -102,6 +102,34 @@ background-color: #83665a;
         <li style="float:left"><a class="active" href="/index">AfroFlicks</a></li>
     </ul>
     <br><br><br><br>
-    <h1>Hey Aman, implement your code here and use the styles.css to style.</h1>
-</body>
+    <!-- <h1>Hey Aman, implement your code here and use the styles.css to style.</h1> -->
+    <form action="/appointment" method="post">
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" name="name" required><br>
+    
+      <label for="phone">Phone Number (Format: 123-456-7890):</label><br>
+      <input type="tel" id="phone1" name="phone1" size="3" maxlength="3" required>-
+      <input type="tel" id="phone2" name="phone2" size="3" maxlength="3" required>-
+      <input type="tel" id="phone" name="phone3"  size="4" maxlength="4" required><br>
+
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" required><br>
+    
+      <label for="date">Date (Format: dd-mm-yyyy):</label><br>
+      <input type="date" id="date" name="date" required><br>
+    
+      <label for="session">Session Type:</label><br>
+      <select id="session" name="session">
+        <option value="Birthday">Birthday</option>
+        <option value="Graduations">Graduations</option>
+        <option value="Wedding">Wedding</option>
+        <option value="Casual">Casual</option>
+        <option value="Headshot">Headshot</option>
+      </select><br><br>
+    
+      <input type="submit" value="Submit">
+    </form>
+
+
+  </body>
 </html>
